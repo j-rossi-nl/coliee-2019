@@ -2,7 +2,6 @@
 
 ##Data
 
-* Dataset from this [Link](https://drive.google.com/file/d/10wd_LJjGAFMfnP2I9nqKlrqw2m5p3SZn/view?usp=sharing)
 * BERT checkpoint from this [Link](https://drive.google.com/file/d/1yd0QAnln7sZiPCSMh-k8UsTk-HJ9_CDM/view?usp=sharing)
 
 ## Environment
