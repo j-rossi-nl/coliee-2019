@@ -1,0 +1,162 @@
+V2 model: On hold-out set, unseen data during training.
+In fact, turns out test data was not completly new... so V3 is on the way
+
+Test P = 0.9423
+Test R = 0.7852
+
+Confusion Matrix:
+             Predicted
+           0             1
+     0 13182           666
+True
+     1  2974         10874
+
+
+
+
+V3 model: took care in BertRanker.preprocess_data() to split train/test with regards to CASE_ID
+
+
+V4 model: weighted loss to prevent False Positives
+BAD RESULTS
+
+V5 model: weighted loss + imbalanced dataset (ratio 4 NEGATIVE for 1 POSITIVE)
+BAD RESULTS
+
+
+V6 model: self written loss + balanced dataset
+All samples are predicted with a score close to 1.0
+Obviously the loss operation was not written properly
+
+V7 model : standard loss, but this time the
+
+HIGH is the model that re-ranks all the samples that had a score above 0.9, to see if we can split them.
+Tried with a non-trainable BERT and a DNN : it classifies everything as the majority class (NEGATIVE). ACU=0.5
+
+
+
+
+Due to the QRELS, if we cut by rank we have a MAX Recall / Precision :
+MAX @5  R:0.70   P:0.68
+MAX @10 R:0.94   P:0.45
+MAX @20 R:1.00   P:0.24
+MAX @50 R:1.00   P:0.10
+
+
+
+
+BM25 :
+Run it on all training material, determined the best cut :
+Score cut:
+Best cut for r:
+   cut    r
+0  0.0  1.0
+
+Best cut for p:
+           cut    p
+10682  10682.0  1.0
+
+Best cut for f1:
+         cut        f1
+5791  5791.0  0.191673
+
+Values at best cut: R=0.25 P=0.16
+
+
+Rank Cut :
+Best cut for r:
+     cut    r
+199  200  1.0
+
+Best cut for p:
+   cut        p
+0    1  0.82807
+
+Best cut for f1:
+   cut        f1
+5    6  0.508135
+
+
+
+
+
+TFRANK
+Looks like it did not learn a lot...
+Graph R by Rank is a straight line, so relevant documents are just spread randomly all over the place...
+Best cut for r:
+     cut    r
+199  200  1.0
+
+Best cut for p:
+    cut         p
+11   12  0.031798
+
+Best cut for f1:
+    cut        f1
+56   57  0.049819
+
+
+
+BERT
+By score:
+Best cut for r:
+   cut    r
+0  0.0  1.0
+
+Best cut for p:
+         cut    p
+9705  0.9705  1.0
+
+Best cut for f1:
+        cut        f1
+9460  0.946  0.568106
+
+Values at best cut: R=0.47 P=0.72
+
+
+
+By rank:
+Best cut for r:
+     cut    r
+199  200  1.0
+
+Best cut for p:
+   cut         p
+0    1  0.789474
+
+Best cut for f1:
+   cut        f1
+5    6  0.494519
+
+Values at best cut: R=0.56 P=0.45
+
+cut r 	        p 	        f1
+5 	0.495890 	0.476316 	0.485906
+10 	0.684932 	0.328947 	0.444444
+15 	0.764384 	0.244737 	0.370764
+20 	0.813699 	0.195395 	0.315119
+
+
+
+Nice efficiency from multiprocessing summarization
+With Multiprocessing : (generated file summary.csv)
+
+Job ID: 287780
+Cluster: ilps
+User/Group: jrossi/Domain Users
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 16
+CPU Utilized: 2-04:20:44
+CPU Efficiency: 94.95% of 2-07:07:44 core-walltime
+Job Wall-clock time: 03:26:44
+Memory Utilized: 19.23 GB
+Memory Efficiency: 96.16% of 20.00 GB
+
+
+Pre-Training of BERT:
+Used all the text from COLIEE Task 1 (cases and candidate cases)
+Folder BERT_LEGAL
+
+
+
